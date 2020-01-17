@@ -10,7 +10,11 @@ import io.jaegertracing.Configuration.ReporterConfiguration;
 import io.jaegertracing.Configuration.SamplerConfiguration;
 import io.jaegertracing.Configuration.SenderConfiguration;
 import io.jaegertracing.internal.JaegerTracer.Builder;
+import io.jaegertracing.internal.propagation.TextMapCodec;
+import io.jaegertracing.spi.Injector;
 import io.opentracing.Tracer;
+import io.opentracing.propagation.Format;
+import io.opentracing.propagation.TextMapInjectAdapter;
 
 /**
  * Since the TracingStartup is an EJB bean, there shouldn't be any final or static
@@ -38,6 +42,9 @@ public class TracingHelper {
                 .withSampler(samplerConfig)
                 .withReporter(reporterConfig)
                 .getTracerBuilder();
+        TextMapCodec codec = TextMapCodec.builder().build();
+        bldr.registerInjector(Format.Builtin.TEXT_MAP, codec);
+        bldr.registerExtractor(Format.Builtin.TEXT_MAP, codec);
         return bldr.build();
     }
 
