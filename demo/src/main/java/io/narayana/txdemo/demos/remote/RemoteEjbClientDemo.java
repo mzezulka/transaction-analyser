@@ -39,8 +39,13 @@ public class RemoteEjbClientDemo extends Demo {
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public DemoResult run(TransactionManager tm, EntityManager em) throws Exception {
-        invokeStatefulBean();
-        invokeStatelessBean();
+        Span span = GlobalTracer.get().buildSpan("ejb-remote-invocation").start();
+        try(Scope s = GlobalTracer.get().activateSpan(span)) {
+            invokeStatefulBean();
+            invokeStatelessBean();
+        } finally {
+            span.finish();
+        }
         return new DemoResult(0, "EJB remote call");
     }
     
@@ -49,23 +54,16 @@ public class RemoteEjbClientDemo extends Demo {
         LOG.debug("Obtained a remote stateful counter for invocation");
         final int NUM_TIMES = 5;
         LOG.debug("Counter will now be incremented " + NUM_TIMES + " times");
-        Span span = GlobalTracer.get().buildSpan("ejb-remote-invocation")
-                .withTag("lucky_number", 42)
-                .start();
-        try(Scope s = GlobalTracer.get().activateSpan(span)) {
-            for (int i = 0; i < NUM_TIMES; i++) {
-                LOG.debug("Incrementing counter");
-                statefulRemoteCounter.increment();
-                LOG.debug("Count after increment is " + statefulRemoteCounter.getCount());
-            }
-            LOG.debug("Counter will now be decremented " + NUM_TIMES + " times");
-            for (int i = NUM_TIMES; i > 0; i--) {
-                LOG.debug("Decrementing counter");
-                statefulRemoteCounter.decrement();
-                LOG.debug("Count after decrement is " + statefulRemoteCounter.getCount());
-            }   
-        } finally {
-            span.finish();
+        for (int i = 0; i < NUM_TIMES; i++) {
+            LOG.debug("Incrementing counter");
+            statefulRemoteCounter.increment();
+            LOG.debug("Count after increment is " + statefulRemoteCounter.getCount());
+        }
+        LOG.debug("Counter will now be decremented " + NUM_TIMES + " times");
+        for (int i = NUM_TIMES; i > 0; i--) {
+            LOG.debug("Decrementing counter");
+            statefulRemoteCounter.decrement();
+            LOG.debug("Count after decrement is " + statefulRemoteCounter.getCount());
         }
     }
 

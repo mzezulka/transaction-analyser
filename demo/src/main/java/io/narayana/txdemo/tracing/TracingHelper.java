@@ -49,7 +49,7 @@ public class TracingHelper {
                 .withFlushInterval(1000)
                 .withMaxQueueSize(10000)
                 .withSender(senderConfig);
-        Builder bldr = new Configuration("tx-demo")
+        Builder bldr = new Configuration(System.getProperty("user.dir") + ":" + config.getProperty("tracer.component_name"))
                 .withSampler(samplerConfig)
                 .withReporter(reporterConfig)
                 .getTracerBuilder();
