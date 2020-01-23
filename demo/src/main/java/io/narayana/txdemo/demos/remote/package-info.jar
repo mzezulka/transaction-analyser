@@ -1,1 +1,5 @@
-Fearlessly stolen from the ejb-remote quickstart available in the repository https://github.com/wildfly/quickstart .
+Fearlessly stolen from the ejb-remote quickstart available in the repository https://github.com/wildfly/quickstart.
+
+Semantics of the RemoteEjbDemo subtype names: RemoteEjb<X>Client<Y>ServerDemo, where
+    X designates number of XAResources enlisted on the side of the RC caller and
+    Y designates number of XAResources enlisted on the side of the RC callee.

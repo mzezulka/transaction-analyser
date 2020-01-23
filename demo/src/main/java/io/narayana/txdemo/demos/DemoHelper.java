@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import io.narayana.txdemo.demos.remote.RemoteEjbClientDemo;
+import io.narayana.txdemo.demos.remote.RemoteEjbOneClientOneServerDemo;
 
 public class DemoHelper {
 
