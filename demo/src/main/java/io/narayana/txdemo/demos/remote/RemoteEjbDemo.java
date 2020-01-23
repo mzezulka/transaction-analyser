@@ -10,6 +10,7 @@ import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.transaction.TransactionManager;
 
+import org.jboss.as.quickstarts.ejb.remote.stateful.RemoteCounter;
 import org.jboss.as.quickstarts.ejb.remote.stateless.RemoteCalculator;
 import org.jboss.logging.Logger;
 
@@ -137,6 +138,18 @@ public abstract class RemoteEjbDemo extends Demo {
                 + ", expected difference was " + (num1 - num2));
         }
         return difference;
+    }
+    
+    protected int incrementCounter(RemoteCounter counter) {
+        LOG.debug("Incrementing counter");
+        counter.increment();
+        return counter.getCount();
+    }
+    
+    protected int decrementCounter(RemoteCounter counter) {
+        LOG.debug("Decrementing counter");
+        counter.decrement();
+        return counter.getCount();
     }
 
     protected abstract void invokeStatefulBean(TransactionManager tm, EntityManager em);

@@ -17,21 +17,10 @@ public class RemoteEjbOneClientTwoServerDemo extends RemoteEjbDemo {
 
     @Override
     protected void invokeStatefulBean(TransactionManager tm, EntityManager em) {
-        final RemoteCounter statefulRemoteCounter = lookupRemoteStatefulBean("EnhancedCounterBean", RemoteCounter.class);
+        final RemoteCounter counter = lookupRemoteStatefulBean("EnhancedCounterBean", RemoteCounter.class);
         LOG.debug("Obtained a remote stateful counter for invocation");
-        final int NUM_TIMES = 1;
-        LOG.debug("Counter will now be incremented " + NUM_TIMES + " times");
-        for (int i = 0; i < NUM_TIMES; i++) {
-            LOG.debug("Incrementing counter");
-            statefulRemoteCounter.increment();
-            LOG.debug("Count after increment is " + statefulRemoteCounter.getCount());
-        }
-        LOG.debug("Counter will now be decremented " + NUM_TIMES + " times");
-        for (int i = NUM_TIMES; i > 0; i--) {
-            LOG.debug("Decrementing counter");
-            statefulRemoteCounter.decrement();
-            LOG.debug("Count after decrement is " + statefulRemoteCounter.getCount());
-        }
+        incrementCounter(counter);
+        decrementCounter(counter);
     }
 
     @Override

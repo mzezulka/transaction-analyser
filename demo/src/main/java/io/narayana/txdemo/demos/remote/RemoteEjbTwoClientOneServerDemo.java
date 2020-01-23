@@ -29,24 +29,10 @@ public class RemoteEjbTwoClientOneServerDemo extends RemoteEjbDemo {
     
     @Override
     protected void invokeStatefulBean(TransactionManager tm, EntityManager em) {
-        final RemoteCounter statefulRemoteCounter = lookupRemoteStatefulBean("CounterBean", RemoteCounter.class);
+        final RemoteCounter counter = lookupRemoteStatefulBean("CounterBean", RemoteCounter.class);
         LOG.debug("Obtained a remote stateful counter for invocation");
-        final int NUM_TIMES = 1;
-        LOG.debug("Counter will now be incremented " + NUM_TIMES + " times");
-        for (int i = 0; i < NUM_TIMES; i++) {
-            LOG.debug("Incrementing counter");
-            statefulRemoteCounter.increment();
-            int cntr = statefulRemoteCounter.getCount();
-            LOG.debug("Count after increment is " + cntr);
-            dbSave(em, new DummyEntity("Counter state: " + cntr));
-        }
-        LOG.debug("Counter will now be decremented " + NUM_TIMES + " times");
-        for (int i = NUM_TIMES; i > 0; i--) {
-            LOG.debug("Decrementing counter");
-            statefulRemoteCounter.decrement();
-            int cntr = statefulRemoteCounter.getCount();
-            dbSave(em, new DummyEntity("Counter state: " + cntr));
-        }
+        dbSave(em, new DummyEntity("Counter state after increment: " + incrementCounter(counter)));
+        dbSave(em, new DummyEntity("Counter state after decrement: " + decrementCounter(counter)));
     }
 
     
