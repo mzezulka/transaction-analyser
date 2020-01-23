@@ -1,25 +1,8 @@
 package io.narayana.txdemo.demos.remote;
 
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.persistence.EntityManager;
-import javax.transaction.TransactionManager;
-
 import org.jboss.as.quickstarts.ejb.remote.stateful.RemoteCounter;
 import org.jboss.as.quickstarts.ejb.remote.stateless.RemoteCalculator;
-import org.jboss.logging.Logger;
-
-import io.narayana.txdemo.DemoResult;
-import io.narayana.txdemo.demos.Demo;
-import io.opentracing.Scope;
-import io.opentracing.Span;
-import io.opentracing.util.GlobalTracer;
-
-import java.util.Hashtable;
 
 @Stateless
 public class RemoteEjbOneClientOneServerDemo extends RemoteEjbDemo {
