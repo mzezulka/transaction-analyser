@@ -1,4 +1,5 @@
 package io.narayana.txdemo.demos.remote;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.transaction.TransactionManager;
 
@@ -11,6 +12,7 @@ import io.narayana.txdemo.DummyEntity;
  * @author mzezulka
  *
  */
+@Stateless
 public class RemoteEjbTwoClientOneServerDemo extends RemoteEjbDemo {
 
     public RemoteEjbTwoClientOneServerDemo() {
