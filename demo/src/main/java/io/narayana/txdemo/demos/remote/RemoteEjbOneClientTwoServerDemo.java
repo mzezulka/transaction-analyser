@@ -1,6 +1,8 @@
 package io.narayana.txdemo.demos.remote;
 
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.transaction.TransactionManager;
 
 @Stateless
 public class RemoteEjbOneClientTwoServerDemo extends RemoteEjbDemo {
@@ -11,12 +13,12 @@ public class RemoteEjbOneClientTwoServerDemo extends RemoteEjbDemo {
     }
 
     @Override
-    protected void invokeStatefulBean() {
+    protected void invokeStatefulBean(TransactionManager tm, EntityManager em) {
         
     }
 
     @Override
-    protected void invokeStatelessBean() {
+    protected void invokeStatelessBean(TransactionManager tm, EntityManager em) {
         
     }
 

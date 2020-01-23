@@ -102,15 +102,15 @@ public abstract class RemoteEjbDemo extends Demo {
     public DemoResult run(TransactionManager tm, EntityManager em) {
         Span span = GlobalTracer.get().buildSpan("ejb-remote-invocation").start();
         try(Scope s = GlobalTracer.get().activateSpan(span)) {
-            invokeStatefulBean();
-            invokeStatelessBean();
+            invokeStatefulBean(tm, em);
+            invokeStatelessBean(tm, em);
         } finally {
             span.finish();
         }
         return new DemoResult(0, "EJB remote call");
     }
     
-    protected abstract void invokeStatefulBean();
+    protected abstract void invokeStatefulBean(TransactionManager tm, EntityManager em);
 
-    protected abstract void invokeStatelessBean();
+    protected abstract void invokeStatelessBean(TransactionManager tm, EntityManager em);
 }

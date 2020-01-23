@@ -1,6 +1,9 @@
 package io.narayana.txdemo.demos.remote;
 
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.transaction.TransactionManager;
+
 import org.jboss.as.quickstarts.ejb.remote.stateful.RemoteCounter;
 import org.jboss.as.quickstarts.ejb.remote.stateless.RemoteCalculator;
 
@@ -13,7 +16,7 @@ public class RemoteEjbOneClientOneServerDemo extends RemoteEjbDemo {
 	}
     
     @Override
-    protected void invokeStatefulBean() {
+    protected void invokeStatefulBean(TransactionManager tm, EntityManager em) {
         final RemoteCounter statefulRemoteCounter = lookupRemoteStatefulBean("CounterBean", RemoteCounter.class);
         LOG.debug("Obtained a remote stateful counter for invocation");
         final int NUM_TIMES = 1;
@@ -32,7 +35,7 @@ public class RemoteEjbOneClientOneServerDemo extends RemoteEjbDemo {
     }
 
     @Override
-    protected void invokeStatelessBean() {
+    protected void invokeStatelessBean(TransactionManager tm, EntityManager em) {
         final RemoteCalculator statelessRemoteCalculator = lookupRemoteStatelessBean("CalculatorBean", RemoteCalculator.class);
         LOG.debug("Obtained a remote stateless calculator for invocation");
         int a = 204;
@@ -55,5 +58,4 @@ public class RemoteEjbOneClientOneServerDemo extends RemoteEjbDemo {
                 + " ,expected difference was " + (num1 - num2));
         }
     }
-
 }
