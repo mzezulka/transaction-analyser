@@ -40,6 +40,8 @@ import io.narayana.txdemo.demos.HaltDemo;
 import io.narayana.txdemo.demos.TwoXAResourcesCdiDemo;
 import io.narayana.txdemo.demos.TwoXAResourcesEjbDemo;
 import io.narayana.txdemo.demos.remote.RemoteEjbOneClientOneServerDemo;
+import io.narayana.txdemo.demos.remote.RemoteEjbOneClientTwoServerDemo;
+import io.narayana.txdemo.demos.remote.RemoteEjbTwoClientOneServerDemo;
 import io.narayana.txdemo.tracing.TracingStartup;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,8 +61,15 @@ public class DemoRestService {
 	TwoXAResourcesEjbDemo twoXAResourcesEJB;
 
 	@EJB
-	RemoteEjbOneClientOneServerDemo remoteEjbClient;
+	RemoteEjbOneClientOneServerDemo remoteEjbClient1;
+	
+	@EJB
+	RemoteEjbOneClientTwoServerDemo remoteEjbClient2;
 
+	@EJB
+    RemoteEjbTwoClientOneServerDemo remoteEjbClient3;
+
+	
 	@Inject
 	TwoXAResourcesCdiDemo twoXAResourcesCDI;
 
@@ -75,7 +84,9 @@ public class DemoRestService {
 		demos.addAll(DemoHelper.getCommonDemos());
 		demos.add(twoXAResourcesEJB);
 		demos.add(twoXAResourcesCDI);
-		demos.add(remoteEjbClient);
+		demos.add(remoteEjbClient1);
+		demos.add(remoteEjbClient2);
+		demos.add(remoteEjbClient3);
 		demos.add(new HaltDemo());
 	}
 
