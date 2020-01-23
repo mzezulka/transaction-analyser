@@ -57,31 +57,4 @@ public class RemoteEjbTwoClientOneServerDemo extends RemoteEjbDemo {
         dbSave(em, new DummyEntity("Sum: " + sumTwoNumbers(calculator)));
         dbSave(em, new DummyEntity("Difference: " + subtractTwoNumbers(calculator)));
     }
-    
-    private int sumTwoNumbers(RemoteCalculator calculator) {
-        int a = 204;
-        int b = 340;
-        LOG.debug("Adding " + a + " and " + b + " via the remote stateless calculator deployed on the server");
-        int sum = calculator.add(a, b);
-        LOG.debug("Remote calculator returned sum = " + sum);
-        if (sum != a + b) {
-            throw new RuntimeException("Remote stateless calculator returned an incorrect sum " + sum + " ,expected sum was "
-                + (a + b));
-        }
-        return sum;
-    }
-    
-    private int subtractTwoNumbers(RemoteCalculator calculator) {
-        int num1 = 3434;
-        int num2 = 2332;
-        LOG.debug("Subtracting " + num2 + " from " + num1
-            + " via the remote stateless calculator deployed on the server");
-        int difference = calculator.subtract(num1, num2);
-        LOG.debug("Remote calculator returned difference = " + difference);
-        if (difference != num1 - num2) {
-            throw new RuntimeException("Remote stateless calculator returned an incorrect difference " + difference
-                + ", expected difference was " + (num1 - num2));
-        }
-        return difference;
-    }
 }

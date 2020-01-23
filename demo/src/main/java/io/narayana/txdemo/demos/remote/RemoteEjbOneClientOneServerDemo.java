@@ -36,26 +36,9 @@ public class RemoteEjbOneClientOneServerDemo extends RemoteEjbDemo {
 
     @Override
     protected void invokeStatelessBean(TransactionManager tm, EntityManager em) {
-        final RemoteCalculator statelessRemoteCalculator = lookupRemoteStatelessBean("CalculatorBean", RemoteCalculator.class);
+        final RemoteCalculator calculator = lookupRemoteStatelessBean("CalculatorBean", RemoteCalculator.class);
         LOG.debug("Obtained a remote stateless calculator for invocation");
-        int a = 204;
-        int b = 340;
-        LOG.debug("Adding " + a + " and " + b + " via the remote stateless calculator deployed on the server");
-        int sum = statelessRemoteCalculator.add(a, b);
-        LOG.debug("Remote calculator returned sum = " + sum);
-        if (sum != a + b) {
-            throw new RuntimeException("Remote stateless calculator returned an incorrect sum " + sum + " ,expected sum was "
-                + (a + b));
-        }
-        int num1 = 3434;
-        int num2 = 2332;
-        LOG.debug("Subtracting " + num2 + " from " + num1
-            + " via the remote stateless calculator deployed on the server");
-        int difference = statelessRemoteCalculator.subtract(num1, num2);
-        LOG.debug("Remote calculator returned difference = " + difference);
-        if (difference != num1 - num2) {
-            throw new RuntimeException("Remote stateless calculator returned an incorrect difference " + difference
-                + " ,expected difference was " + (num1 - num2));
-        }
+        sumTwoNumbers(calculator);
+        subtractTwoNumbers(calculator);
     }
 }

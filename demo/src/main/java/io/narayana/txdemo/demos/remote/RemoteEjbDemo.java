@@ -9,6 +9,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.transaction.TransactionManager;
+
+import org.jboss.as.quickstarts.ejb.remote.stateless.RemoteCalculator;
 import org.jboss.logging.Logger;
 
 import io.narayana.txdemo.DemoResult;
@@ -110,6 +112,33 @@ public abstract class RemoteEjbDemo extends Demo {
         return new DemoResult(0, "EJB remote call");
     }
     
+    protected int sumTwoNumbers(RemoteCalculator calculator) {
+        int a = 204;
+        int b = 340;
+        LOG.debug("Adding " + a + " and " + b + " via the remote stateless calculator deployed on the server");
+        int sum = calculator.add(a, b);
+        LOG.debug("Remote calculator returned sum = " + sum);
+        if (sum != a + b) {
+            throw new RuntimeException("Remote stateless calculator returned an incorrect sum " + sum + " ,expected sum was "
+                + (a + b));
+        }
+        return sum;
+    }
+
+    protected int subtractTwoNumbers(RemoteCalculator calculator) {
+        int num1 = 3434;
+        int num2 = 2332;
+        LOG.debug("Subtracting " + num2 + " from " + num1
+            + " via the remote stateless calculator deployed on the server");
+        int difference = calculator.subtract(num1, num2);
+        LOG.debug("Remote calculator returned difference = " + difference);
+        if (difference != num1 - num2) {
+            throw new RuntimeException("Remote stateless calculator returned an incorrect difference " + difference
+                + ", expected difference was " + (num1 - num2));
+        }
+        return difference;
+    }
+
     protected abstract void invokeStatefulBean(TransactionManager tm, EntityManager em);
 
     protected abstract void invokeStatelessBean(TransactionManager tm, EntityManager em);
