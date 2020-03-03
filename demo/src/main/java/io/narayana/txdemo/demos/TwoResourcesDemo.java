@@ -10,7 +10,6 @@ import javax.jms.XAConnectionFactory;
 import javax.persistence.EntityManager;
 
 import io.narayana.txdemo.DummyEntity;
-import io.narayana.txdemo.tracing.TracingStartup;
 import io.opentracing.Tracer;
 import io.opentracing.contrib.jms.common.TracingMessageConsumer;
 import io.opentracing.contrib.jms2.TracingConnection;

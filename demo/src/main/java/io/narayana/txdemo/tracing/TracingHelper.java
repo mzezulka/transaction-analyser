@@ -2,29 +2,16 @@ package io.narayana.txdemo.tracing;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Properties;
-import java.util.Map.Entry;
 
 import io.jaegertracing.Configuration;
-import io.jaegertracing.Configuration.CodecConfiguration;
 import io.jaegertracing.Configuration.ReporterConfiguration;
 import io.jaegertracing.Configuration.SamplerConfiguration;
 import io.jaegertracing.Configuration.SenderConfiguration;
-import io.jaegertracing.internal.JaegerSpanContext;
-import io.jaegertracing.internal.JaegerTracer;
 import io.jaegertracing.internal.JaegerTracer.Builder;
 import io.jaegertracing.internal.propagation.TextMapCodec;
-import io.jaegertracing.spi.Extractor;
-import io.jaegertracing.spi.Injector;
 import io.opentracing.Tracer;
 import io.opentracing.propagation.Format;
-import io.opentracing.propagation.TextMap;
-import io.opentracing.propagation.TextMapAdapter;
-import io.opentracing.propagation.TextMapExtract;
-import io.opentracing.propagation.TextMapInject;
-import io.opentracing.propagation.TextMapInjectAdapter;
 
 /**
  * Since the TracingStartup is an EJB bean, there shouldn't be any final or static
@@ -53,50 +40,9 @@ public class TracingHelper {
                 .withSampler(samplerConfig)
                 .withReporter(reporterConfig)
                 .getTracerBuilder();
-        bldr.registerInjector(Format.Builtin.TEXT_MAP_INJECT, new TextMapInjector());
-        bldr.registerExtractor(Format.Builtin.TEXT_MAP_EXTRACT, new TextMapExtractor());
+        bldr.registerInjector(Format.Builtin.TEXT_MAP, TEXT_MAP_CODEC);
+        bldr.registerExtractor(Format.Builtin.TEXT_MAP, TEXT_MAP_CODEC);
         return bldr.build();
-    }
-    
-    private static class TextMapExtractor implements Extractor<TextMapExtract> {
-
-        @Override
-        public JaegerSpanContext extract(TextMapExtract carrier) {
-             TextMap tm = new TextMap() {
-                
-                @Override
-                public Iterator<Entry<String, String>> iterator() {
-                    return carrier.iterator();
-                }
-                
-                @Override
-                public void put(String key, String value) {
-                    throw new IllegalArgumentException("We do not expect inject related methods to be called.");
-                }
-            };
-            return TEXT_MAP_CODEC.extract(tm);
-        }
-        
-    }
-
-    private static class TextMapInjector implements Injector<TextMapInject>  {
-        
-        @Override
-        public void inject(JaegerSpanContext spanContext, TextMapInject carrier) {
-            TextMap tm = new TextMap() {
-                
-                @Override
-                public Iterator<Entry<String, String>> iterator() {
-                    throw new IllegalArgumentException("We do not expect extract related methods to be called.");
-                }
-                
-                @Override
-                public void put(String key, String value) {
-                    carrier.put(key, value);
-                }
-            };
-            TEXT_MAP_CODEC.inject(spanContext, tm);
-        }
     }
 
     static Properties loadConfig() {
