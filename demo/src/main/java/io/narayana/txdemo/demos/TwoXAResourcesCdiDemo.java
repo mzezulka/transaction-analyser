@@ -14,7 +14,7 @@ import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
 import io.narayana.txdemo.DemoResult;
-import io.narayana.txdemo.DummyEntity;
+import org.jboss.as.quickstarts.ejb.remote.stateful.DummyEntity;
 /**
  * CDI and declarative based transaction programming.
  *
@@ -56,7 +56,7 @@ public class TwoXAResourcesCdiDemo extends TwoResourcesDemo {
 				dbSave(em, de);
 			}
 			for (DummyEntity de : dbGet(em)) {
-				jmsSend(de.getName());
+				jmsSend(de.getMsg());
 				jmsGet().ifPresent(dummy -> strBldr.append(dummy + "\n"));
 			}
 			return new DemoResult(0, "Commited two resources - JMS & DB, message:\n\n" + strBldr.toString());

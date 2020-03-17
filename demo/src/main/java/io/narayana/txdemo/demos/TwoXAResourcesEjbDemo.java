@@ -15,7 +15,7 @@ import javax.persistence.EntityManager;
 import javax.transaction.TransactionManager;
 
 import io.narayana.txdemo.DemoResult;
-import io.narayana.txdemo.DummyEntity;
+import org.jboss.as.quickstarts.ejb.remote.stateful.DummyEntity;
 
 /**
  * EJB and declarative based transaction programming.
@@ -68,7 +68,7 @@ public class TwoXAResourcesEjbDemo extends TwoResourcesDemo {
 	private String runJmsPart(EntityManager em) {
 		StringBuilder strBldr = new StringBuilder();
 		for (DummyEntity de : dbGet(em)) {
-			jmsSend(de.getName());
+			jmsSend(de.getMsg());
 			jmsGet().ifPresent(dummy -> strBldr.append(dummy + "\n"));
 		}
 		return strBldr.toString();

@@ -9,13 +9,13 @@ import javax.jms.TextMessage;
 import javax.jms.XAConnectionFactory;
 import javax.persistence.EntityManager;
 
-import io.narayana.txdemo.DummyEntity;
 import io.opentracing.Tracer;
 import io.opentracing.contrib.jms.common.TracingMessageConsumer;
 import io.opentracing.contrib.jms2.TracingConnection;
 import io.opentracing.contrib.jms2.TracingMessageProducer;
 import io.opentracing.contrib.jms2.TracingSession;
 import io.opentracing.util.GlobalTracer;
+import org.jboss.as.quickstarts.ejb.remote.stateful.DummyEntity;
 
 public abstract class TwoResourcesDemo extends Demo {
     protected TwoResourcesDemo(int i, String name, String desc) {

@@ -3,9 +3,9 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.transaction.TransactionManager;
 
+import org.jboss.as.quickstarts.ejb.remote.stateful.DummyEntity;
 import org.jboss.as.quickstarts.ejb.remote.stateful.RemoteCounter;
 import org.jboss.as.quickstarts.ejb.remote.stateless.RemoteCalculator;
-import io.narayana.txdemo.DummyEntity;
 
 /**
  * Basically the same demo as {@link RemoteEjbOneClientOneServerDemo} but with persisting the counter state.
